@@ -1,3 +1,16 @@
+/*
+Seeed XIAO ESP32C3
+　　┌─┬──┬─┐
+ 2 │ └──┘ │ 5V
+ 3 │      │ GND
+ 4 │      │ 3V3
+ 5 │      │ 10  MOSI
+ 6 │      │  9  MISO
+ 7 │      │  8  SCK
+21 │      │ 20
+　　└──────┘
+*/
+
 #define ENABLE_GxEPD2_GFX 0
 #include <GxEPD2_BW.h>
 #include <GxEPD2_3C.h>
