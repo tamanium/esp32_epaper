@@ -1,14 +1,14 @@
 /*
 Seeed XIAO ESP32C3
-　　┌─┬──┬─┐
- 2 │ └──┘ │ 5V
- 3 │      │ GND
- 4 │      │ 3V3
- 5 │      │ 10  MOSI
- 6 │      │  9  MISO
- 7 │      │  8  SCK
-21 │      │ 20
-　　└──────┘
+   ┌───┬────┬───┐
+ 2 │   │    │   │ 5V
+ 3 │   └────┘   │ GND
+ 4 │            │ 3V3
+ 5 │            │ 10  MOSI
+ 6 │            │  9  MISO
+ 7 │            │  8  SCK
+21 │            │ 20
+   └────────────┘
 */
 
 #define ENABLE_GxEPD2_GFX 0
@@ -16,7 +16,6 @@ Seeed XIAO ESP32C3
 #include <GxEPD2_3C.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
 GxEPD2_BW<GxEPD2_290_BS, GxEPD2_290_BS::HEIGHT> display(GxEPD2_290_BS(/*CS=5*/ 2, /*DC=*/ 3, /*RES=*/ 4, /*BUSY=*/ 5));
-//GxEPD2_3C<GxEPD2_213_Z98c, GxEPD2_213_Z98c::HEIGHT> display(GxEPD2_213_Z98c(/*CS=5*/ 2, /*DC=*/ 3, /*RES=*/ 4, /*BUSY=*/ 5)); // GDEY0213Z98 122x250, SSD1680
 
 
 const char HelloWorld[] = "Hello World!";
