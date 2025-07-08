@@ -26,16 +26,14 @@ void setup(){
 	Serial.begin(115200);
 	display.init(115200,true,50,false);
 	delay(2000);
+	Serial.println("helloWorld");
 	helloWorld();
-	/*
+	delay(5000);
+	Serial.println("helloFullScreenPartialMode");
 	helloFullScreenPartialMode();
 	delay(1000);
-	if (display.epd2.hasFastPartialUpdate){
-		showPartialUpdate();
-		delay(1000);
-	}
+	Serial.println("hibernate");
 	display.hibernate();
-	*/
 	Serial.println("---------------------");
 	Serial.println("-----example end-----");
 	Serial.println("---------------------");
@@ -45,39 +43,44 @@ void loop() {
 }
 
 void helloWorld(){
-	Serial.println("helloWorld: begin");
 	// 画面の向き
 	display.setRotation(3);
 	// フォント設定
 	display.setFont(&FreeMonoBold9pt7b);
 	// 文字色
 	display.setTextColor(GxEPD_BLACK);
+	
 	int16_t tbx, tby;
+	// 文字列の縦横
 	uint16_t tbw, tbh;
 	// 文字表示設定？
 	display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
 	// center the bounding box by transposition of the origin:
-	
-	Serial.println("helloWorld: displaySetting end");
 	//中央寄せ
 	uint16_t x = ((display.width() - tbw) / 2) - tbx;
 	uint16_t y = ((display.height() - tbh) / 2) - tby;
 	display.setFullWindow();
-	Serial.println("helloWorld: setFullWindow end");
 	display.firstPage();
+	unsigned long start = millis();
 	do{
-		Serial.println("helloWorld: drawing... in do-while");
+		// 背景塗りつぶし
 		display.fillScreen(GxEPD_WHITE);
+		// 描画位置
 		display.setCursor(x, y-tbh);
+		// 描画文字
 		display.print(HelloWorld);
+		// 文字色
 		display.setTextColor(display.epd2.hasColor ? GxEPD_RED : GxEPD_BLACK);
+		// 設定?
 		display.getTextBounds(HelloWeACtStudio, 0, 0, &tbx, &tby, &tbw, &tbh);
 		x = ((display.width() - tbw) / 2) - tbx;
+		// 描画位置
 		display.setCursor(x, y+tbh);
+		// 描画文字
 		display.print(HelloWeACtStudio);
 	}while (display.nextPage());
-
-	Serial.println("helloWorld: end");
+	Serial.print("display time[ms]: ");
+	Serial.println(millis() - start);
 }
 
 void helloFullScreenPartialMode()
@@ -88,7 +91,7 @@ void helloFullScreenPartialMode()
 	const char spm[] = "slow partial mode";
 	const char npm[] = "no partial mode";
 	display.setPartialWindow(0, 0, display.width(), display.height());
-	display.setRotation(1);
+	display.setRotation(3);
 	display.setFont(&FreeMonoBold9pt7b);
 	if (display.epd2.WIDTH < 104) display.setFont(0);
 	display.setTextColor(GxEPD_BLACK);
@@ -116,6 +119,8 @@ void helloFullScreenPartialMode()
 	display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
 	uint16_t hwx = ((display.width() - tbw) / 2) - tbx;
 	uint16_t hwy = ((display.height() - tbh) / 2) - tby;
+	
+	unsigned long start = millis();
 	display.firstPage();
 	do{
 		display.fillScreen(GxEPD_WHITE);
@@ -127,7 +132,8 @@ void helloFullScreenPartialMode()
 		display.print(updatemode);
 	}
 	while (display.nextPage());
-	//Serial.println("helloFullScreenPartialMode done");
+	Serial.print("display time[ms]: ");
+	Serial.println(millis()-start);
 }
 
 void showPartialUpdate(){
