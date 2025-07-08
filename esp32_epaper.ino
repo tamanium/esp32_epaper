@@ -16,6 +16,7 @@ Seeed XIAO ESP32C3
 #include <GxEPD2_3C.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
 GxEPD2_BW<GxEPD2_290_BS, GxEPD2_290_BS::HEIGHT> display(GxEPD2_290_BS(/*CS=5*/ 2, /*DC=*/ 3, /*RES=*/ 4, /*BUSY=*/ 5));
+//GxEPD2_3C<GxEPD2_290_C90c, GxEPD2_290_C90c::HEIGHT> display(GxEPD2_290_C90c(/*CS=5*/ 2, /*DC=*/ 3, /*RES=*/ 4, /*BUSY=*/ 5)); // GDEM029C90 128x296, SSD1680
 
 
 const char HelloWorld[] = "Hello World!";
@@ -34,11 +35,9 @@ void setup(){
 }
 
 void loop() {
-	// put your main code here, to run repeatedly:
-	digitalWrite(8, HIGH);
-	delay(1000);
-	digitalWrite(8, LOW);
-	delay(1000);  
+	Serial.println("---------------------");
+	Serial.println("-----example end-----");
+	Serial.println("---------------------");
 }
 
 void helloWorld(){
