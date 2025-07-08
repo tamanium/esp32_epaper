@@ -15,16 +15,19 @@ Seeed XIAO ESP32C3
 #include <GxEPD2_BW.h>
 #include <GxEPD2_3C.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
-GxEPD2_BW<GxEPD2_290_BS, GxEPD2_290_BS::HEIGHT> display(GxEPD2_290_BS(/*CS=5*/ 2, /*DC=*/ 3, /*RES=*/ 4, /*BUSY=*/ 5));
-//GxEPD2_3C<GxEPD2_290_C90c, GxEPD2_290_C90c::HEIGHT> display(GxEPD2_290_C90c(/*CS=5*/ 2, /*DC=*/ 3, /*RES=*/ 4, /*BUSY=*/ 5)); // GDEM029C90 128x296, SSD1680
+//GxEPD2_BW<GxEPD2_290_BS, GxEPD2_290_BS::HEIGHT> display(GxEPD2_290_BS(/*CS=5*/ 2, /*DC=*/ 3, /*RES=*/ 4, /*BUSY=*/ 5));
+GxEPD2_3C<GxEPD2_290_C90c, GxEPD2_290_C90c::HEIGHT> display(GxEPD2_290_C90c(/*CS=5*/ 2, /*DC=*/ 3, /*RES=*/ 4, /*BUSY=*/ 5)); // GDEM029C90 128x296, SSD1680
 
 
 const char HelloWorld[] = "Hello World!";
 const char HelloWeACtStudio[] = "By @tamama_design";
 
 void setup(){
+	Serial.begin(115200);
 	display.init(115200,true,50,false);
+	delay(2000);
 	helloWorld();
+	/*
 	helloFullScreenPartialMode();
 	delay(1000);
 	if (display.epd2.hasFastPartialUpdate){
@@ -32,15 +35,17 @@ void setup(){
 		delay(1000);
 	}
 	display.hibernate();
-}
-
-void loop() {
+	*/
 	Serial.println("---------------------");
 	Serial.println("-----example end-----");
 	Serial.println("---------------------");
 }
 
+void loop() {
+}
+
 void helloWorld(){
+	Serial.println("helloWorld: begin");
 	// 画面の向き
 	display.setRotation(3);
 	// フォント設定
@@ -52,12 +57,16 @@ void helloWorld(){
 	// 文字表示設定？
 	display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
 	// center the bounding box by transposition of the origin:
+	
+	Serial.println("helloWorld: displaySetting end");
 	//中央寄せ
 	uint16_t x = ((display.width() - tbw) / 2) - tbx;
 	uint16_t y = ((display.height() - tbh) / 2) - tby;
 	display.setFullWindow();
+	Serial.println("helloWorld: setFullWindow end");
 	display.firstPage();
 	do{
+		Serial.println("helloWorld: drawing... in do-while");
 		display.fillScreen(GxEPD_WHITE);
 		display.setCursor(x, y-tbh);
 		display.print(HelloWorld);
@@ -67,6 +76,8 @@ void helloWorld(){
 		display.setCursor(x, y+tbh);
 		display.print(HelloWeACtStudio);
 	}while (display.nextPage());
+
+	Serial.println("helloWorld: end");
 }
 
 void helloFullScreenPartialMode()
