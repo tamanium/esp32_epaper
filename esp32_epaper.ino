@@ -49,32 +49,35 @@ void helloWorld(){
 	display.setFont(&FreeMonoBold9pt7b);
 	// 文字色
 	display.setTextColor(GxEPD_BLACK);
-	
+	// 原点オフセット
 	int16_t tbx, tby;
 	// 文字列の縦横
 	uint16_t tbw, tbh;
-	// 文字表示設定？
+	// 設定済みフォントの情報から
+	// 原点オフセットと文字列縦横の値を取得
 	display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
-	// center the bounding box by transposition of the origin:
-	//中央寄せ
+	//中央寄せ時のxy座標取得
 	uint16_t x = ((display.width() - tbw) / 2) - tbx;
 	uint16_t y = ((display.height() - tbh) / 2) - tby;
+	// これは何だろうか
 	display.setFullWindow();
+	// firstPage()からdo文は定型文
 	display.firstPage();
 	unsigned long start = millis();
 	do{
 		// 背景塗りつぶし
 		display.fillScreen(GxEPD_WHITE);
-		// 描画位置
+		// 描画位置（画面上下中央下揃え）
 		display.setCursor(x, y-tbh);
 		// 描画文字
 		display.print(HelloWorld);
 		// 文字色
 		display.setTextColor(display.epd2.hasColor ? GxEPD_RED : GxEPD_BLACK);
-		// 設定?
+		// 原点オフセットと文字列縦横を取得
 		display.getTextBounds(HelloWeACtStudio, 0, 0, &tbx, &tby, &tbw, &tbh);
+		// 中央寄せ
 		x = ((display.width() - tbw) / 2) - tbx;
-		// 描画位置
+		// 描画位置（画面上下中央上揃え）
 		display.setCursor(x, y+tbh);
 		// 描画文字
 		display.print(HelloWeACtStudio);
@@ -85,7 +88,6 @@ void helloWorld(){
 
 void helloFullScreenPartialMode()
 {
-	//Serial.println("helloFullScreenPartialMode");
 	const char fullscreen[] = "full screen update";
 	const char fpm[] = "fast partial mode";
 	const char spm[] = "slow partial mode";
