@@ -33,6 +33,7 @@ void setup(){
 	helloFullScreenPartialMode();
 	delay(1000);
 	Serial.println("hibernate");
+	// powerOffと同じ？とりあえず処理完了時にこれを呼ぶ
 	display.hibernate();
 	Serial.println("---------------------");
 	Serial.println("-----example end-----");
@@ -46,7 +47,7 @@ void helloWorld(){
 	// 画面の向き
 	display.setRotation(3);
 	// フォント設定
-	display.setFont(&FreeMonoBold9pt7b);
+	//display.setFont(&FreeMonoBold9pt7b);
 	// 文字色
 	display.setTextColor(GxEPD_BLACK);
 	// 原点オフセット
@@ -59,7 +60,7 @@ void helloWorld(){
 	//中央寄せ時のxy座標取得
 	uint16_t x = ((display.width() - tbw) / 2) - tbx;
 	uint16_t y = ((display.height() - tbh) / 2) - tby;
-	// これは何だろうか
+	// ディスプレイ更新対象を画面全体に設定
 	display.setFullWindow();
 	// firstPage()からdo文は定型文
 	display.firstPage();
@@ -94,7 +95,7 @@ void helloFullScreenPartialMode()
 	const char npm[] = "no partial mode";
 	display.setPartialWindow(0, 0, display.width(), display.height());
 	display.setRotation(3);
-	display.setFont(&FreeMonoBold9pt7b);
+	//display.setFont(&FreeMonoBold9pt7b);
 	if (display.epd2.WIDTH < 104) display.setFont(0);
 	display.setTextColor(GxEPD_BLACK);
 	const char* updatemode;
