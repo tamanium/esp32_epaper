@@ -91,33 +91,33 @@ void test(){
 	for(int i=0;i<6;i++){
 		char dataChar[6];
 		// 日付
-		sprintf(dataChar, "%02d/%02d", dataArr[i].month, dataArr[i].day);
+		sprintf(dataChar, "%02d/%02d", 12, i+1);
 		msgArr[0] += dataChar;
 		msgArr[0] += " ";
 		// 天気コード
-		sprintf(dataChar, " %03d ", dataArr[i].weatherCode);
+		sprintf(dataChar, " %03d ", 100+i);
 		msgArr[1] += dataChar;
 		msgArr[1] += " ";
 		// 最高気温
-		sprintf(dataChar, " %2d  ", dataArr[i].tempMax);
+		sprintf(dataChar, "  %2d ", 30+i);
 		msgArr[2] += dataChar;
 		msgArr[2] += " ";
 		// 最低気温
-		sprintf(dataChar, "  %2d ", dataArr[i].tempMin);
+		sprintf(dataChar, "  %2d ", 10+i);
 		msgArr[3] += dataChar;
 		msgArr[3] += " ";
 		// 降水確率
-		sprintf(dataChar, "  %3d ", dataArr[i].popsArr[0]);
+		sprintf(dataChar, " %3d ", i*10);
 		msgArr[4] += dataChar;
 		msgArr[4] += " ";
 	}
-
+	display.setFullWindow();
 	do{
 		// 背景塗りつぶし
 		display.fillScreen(GxEPD_WHITE);
-		for(int i=0;i<5;i++){
+		for(int i=4;i>=0;i--){
 			// 描画位置（画面上下中央下揃え）
-			display.setCursor(0 - tbx, (tbh+5)*(i+1)-tby);
+			display.setCursor(0 - tbx, display.height()-(tbh+2)*(5-i)-tby);
 			// 描画文字
 			display.print(msgArr[i]);
 		}
