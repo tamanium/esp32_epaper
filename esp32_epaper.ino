@@ -26,12 +26,13 @@ void setup(){
 	Serial.begin(115200);
 	display.init(115200,true,50,false);
 	delay(2000);
-	Serial.println("helloWorld");
-	helloWorld();
-	delay(5000);
-	Serial.println("helloFullScreenPartialMode");
-	helloFullScreenPartialMode();
-	delay(1000);
+	test();
+	//Serial.println("helloWorld");
+	//helloWorld();
+	//delay(5000);
+	//Serial.println("helloFullScreenPartialMode");
+	//helloFullScreenPartialMode();
+	//delay(1000);
 	Serial.println("hibernate");
 	// powerOffと同じ？とりあえず処理完了時にこれを呼ぶ
 	display.hibernate();
@@ -41,6 +42,9 @@ void setup(){
 }
 
 void loop() {
+}
+
+void test(){
 }
 
 void helloWorld(){
