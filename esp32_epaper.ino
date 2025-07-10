@@ -22,6 +22,17 @@ GxEPD2_3C<GxEPD2_290_C90c, GxEPD2_290_C90c::HEIGHT> display(GxEPD2_290_C90c(/*CS
 const char HelloWorld[] = "Hello World!";
 const char HelloWeACtStudio[] = "By @tamama_design";
 
+struct Data{
+	int year;        // 年（いらないかも）
+	byte month;      // 月
+	byte day;        // 日
+	int weatherCode; // 天気コード
+	String message;  // 天気メッセージ（非必須）
+	int tempMin;     // 最低気温
+	int tempMax;     // 最高気温
+	byte popsArr[4]; // 降水確率（6時間ごと）
+};
+
 void setup(){
 	Serial.begin(115200);
 	display.init(115200,true,50,false);
@@ -45,6 +56,72 @@ void loop() {
 }
 
 void test(){
+	// 画面の向き
+	display.setRotation(3);
+	// フォント設定
+	//display.setFont(&FreeMonoBold9pt7b);
+	// 文字色
+	display.setTextColor(GxEPD_BLACK);
+	// 原点オフセット
+	int16_t tbx, tby;
+	// 文字列の縦横
+	uint16_t tbw, tbh;
+	// とりあえず適当に原点オフセットと文字列縦を取得
+	display.getTextBounds("HelloWorld", 0, 0, &tbx, &tby, &tbw, &tbh);
+
+	// ダミーデータ作成
+	byte month = 12;
+	byte day = 1;
+	Data dataArr[4];
+	for(int i=0;i<4;i++){
+		dataArr[i].year = 2024;
+		dataArr[i].month = month;
+		dataArr[i].day = day+i;
+		dataArr[i].weatherCode = 100+i;
+		dataArr[i].tempMin = 10+i;
+		dataArr[i].tempMax = 30+i;
+		dataArr[i].popsArr[0] = i*10;
+	}
+	
+	String msgArr[5];
+	for(int i=0;i<5;i++){
+		msgArr[i] = "";
+	}
+
+	for(int i=0;i<6;i++){
+		char dataChar[6];
+		// 日付
+		sprintf(dataChar, "%02d/%02d", dataArr[i].month, dataArr[i].day);
+		msgArr[0] += dataChar;
+		msgArr[0] += " ";
+		// 天気コード
+		sprintf(dataChar, " %03d ", dataArr[i].weatherCode);
+		msgArr[1] += dataChar;
+		msgArr[1] += " ";
+		// 最高気温
+		sprintf(dataChar, " %2d  ", dataArr[i].tempMax);
+		msgArr[2] += dataChar;
+		msgArr[2] += " ";
+		// 最低気温
+		sprintf(dataChar, "  %2d ", dataArr[i].tempMin);
+		msgArr[3] += dataChar;
+		msgArr[3] += " ";
+		// 降水確率
+		sprintf(dataChar, "  %3d ", dataArr[i].popsArr[0]);
+		msgArr[4] += dataChar;
+		msgArr[4] += " ";
+	}
+
+	do{
+		// 背景塗りつぶし
+		display.fillScreen(GxEPD_WHITE);
+		for(int i=0;i<5;i++){
+			// 描画位置（画面上下中央下揃え）
+			display.setCursor(0 - tbx, (tbh+5)*(i+1)-tby);
+			// 描画文字
+			display.print(msgArr[i]);
+		}
+	}while (display.nextPage());
 }
 
 void helloWorld(){
@@ -91,8 +168,7 @@ void helloWorld(){
 	Serial.println(millis() - start);
 }
 
-void helloFullScreenPartialMode()
-{
+void helloFullScreenPartialMode(){
 	const char fullscreen[] = "full screen update";
 	const char fpm[] = "fast partial mode";
 	const char spm[] = "slow partial mode";
