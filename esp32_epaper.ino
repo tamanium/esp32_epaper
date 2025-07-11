@@ -95,19 +95,19 @@ void test(){
 		msgArr[0] += dataChar;
 		msgArr[0] += " ";
 		// 天気コード
-		sprintf(dataChar, " %03d ", 100+i);
+		sprintf(dataChar, "%4d ", 100+i);
 		msgArr[1] += dataChar;
 		msgArr[1] += " ";
 		// 最高気温
-		sprintf(dataChar, "  %2d ", 30+i);
+		sprintf(dataChar, "%4dc", 30+i);
 		msgArr[2] += dataChar;
 		msgArr[2] += " ";
 		// 最低気温
-		sprintf(dataChar, "  %2d ", 10+i);
+		sprintf(dataChar, "%4dc", 10+i);
 		msgArr[3] += dataChar;
 		msgArr[3] += " ";
 		// 降水確率
-		sprintf(dataChar, " %3d ", i*10);
+		sprintf(dataChar, "%4d%%", i*10);
 		msgArr[4] += dataChar;
 		msgArr[4] += " ";
 	}
